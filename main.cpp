@@ -1,11 +1,8 @@
 #include <iostream>
-#include <conio.h>
-#include <windows.h>
-#include <ctime>
-#include "globals/globals.h"
-#include "loop/loop.h"
 #include "rendering/render.h"
+#include "globals/globals.h"
 #include "utils/utils.h"
+#include "loop/loop.h"
 
 using namespace std;
 

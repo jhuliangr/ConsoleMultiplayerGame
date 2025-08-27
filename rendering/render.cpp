@@ -1,10 +1,9 @@
 #include <iostream>
 #include <windows.h>
 #include "../globals/globals.h"
+#include "../utils/colors.h"
 
 using namespace std;
-
-
 
 void render()
 {
@@ -47,14 +46,34 @@ void render()
     // Draw buffer
     for (int i = 0; i < HEIGHT; i++)
     {
-        cout << screenBuffer[i] << "\n";
+        for (int j = 0; j < WIDTH; j++)
+        {
+            if (screenBuffer[i][j] == 'X')
+            {
+                string s(1, screenBuffer[i][j]);
+                cout << ConsoleColor::red(s);
+            }
+            else if (screenBuffer[i][j] == 'H')
+            {
+                string s(1, screenBuffer[i][j]);
+                cout << ConsoleColor::blue(s);
+            }
+            else
+            {
+                cout << screenBuffer[i][j];
+            }
+            if (j == WIDTH - 1)
+            {
+                cout << "\n";
+            }
+        }
     }
 
     // Controls on screen
     cout << "WASD for moving, Q for exit" << "\n";
     cout << "Player 1 score: " << player1Score << "\n"
          << "Player 2 score: " << player2Score << "\n";
-    if (totalPoints/2 < player1Score || totalPoints/2 < player2Score)
+    if (totalPoints / 2 < player1Score || totalPoints / 2 < player2Score)
     {
         if (player1Score == player2Score)
         {

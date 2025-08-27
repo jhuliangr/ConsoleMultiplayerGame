@@ -3,8 +3,7 @@
 using namespace std;
 
 char screenBuffer[HEIGHT][WIDTH];
-pair<int, int> player1;
-int player1Score = 0;
-int player2Score = 0;
+
+Player player1(0, {10, 10});
+Player player2(0, {10, 39});
 int totalPoints = 0;
-pair<int, int> player2;

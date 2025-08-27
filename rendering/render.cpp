@@ -24,18 +24,18 @@ void render()
     }
 
     // check if player gets a point
-    if (screenBuffer[player1.first][player1.second] == '*')
+    if (screenBuffer[player1.getPosition().first][player1.getPosition().second] == '*')
     {
-        player1Score++;
+        player1.addScorePoint();
     }
-    if (screenBuffer[player2.first][player2.second] == '*')
+    if (screenBuffer[player2.getPosition().first][player2.getPosition().second] == '*')
     {
-        player2Score++;
+        player2.addScorePoint();
     }
     // Draw player's new position
-    screenBuffer[player1.first][player1.second] = 'X';
+    screenBuffer[player1.getPosition().first][player1.getPosition().second] = 'X';
 
-    screenBuffer[player2.first][player2.second] = 'H';
+    screenBuffer[player2.getPosition().first][player2.getPosition().second] = 'H';
 
     // Move cursor to the start of the screen
     COORD coord;
@@ -70,24 +70,27 @@ void render()
     }
 
     // Controls on screen
+    int p1Score = player1.getScore();
+    int p2Score = player2.getScore();
+
     cout << "WASD for moving, Q for exit" << "\n";
-    cout << "Player 1 score: " << player1Score << "\n"
-         << "Player 2 score: " << player2Score << "\n";
-    if (totalPoints / 2 < player1Score || totalPoints / 2 < player2Score)
+    cout << "Player 1 score: " << p1Score << "\n"
+         << "Player 2 score: " << p2Score << "\n";
+    if (totalPoints / 2 < p1Score || totalPoints / 2 < p2Score)
     {
-        if (player1Score == player2Score)
+        if (p1Score == p2Score)
         {
             cout << "This is a Draw\n";
         }
         else
         {
-            cout << "The absolute winner is: Player " << (player1Score > player2Score ? "1" : "2") << "!!\n";
+            cout << "The absolute winner is: Player " << (p1Score > p2Score ? "1" : "2") << "!!\n";
         }
     }
 
     // saving actual position for the next render
-    prevPos = player1;
-    prevPosP2 = player2;
+    prevPos = player1.getPosition();
+    prevPosP2 = player2.getPosition();
 }
 
 void initializeBuffer()

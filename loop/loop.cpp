@@ -17,24 +17,21 @@ void loop()
             // Player one sprite
             if (key == 'a' || key == 'A')
             {
-                if (player1.second > 1)
-                    player1.second--;
+                player1.move(Direction::LEFT);
             }
             if (key == 'd' || key == 'D')
             {
-                if (player1.second < WIDTH - 3)
-                    player1.second++; // because of the '\0' character for the endline
+                player1.move(Direction::RIGHT);
             }
             if (key == 'w' || key == 'W')
             {
-                if (player1.first > 1)
-                    player1.first--;
+                player1.move(Direction::UP);
             }
             if (key == 's' || key == 'S')
             {
-                if (player1.first < HEIGHT - 2)
-                    player1.first++;
+                player1.move(Direction::DOWN);
             }
+
             if (key == 'q' || key == 'Q')
             {
                 cout << "Bye...\n";
@@ -44,23 +41,21 @@ void loop()
             // Player 2 sprite
             if (key == 75)
             { // left
-                if (player2.second > 1)
-                    player2.second--;
+                player2.move(Direction::LEFT);
             }
             if (key == 77)
             { // right
-                if (player2.second < WIDTH - 3)
-                    player2.second++; // because of the '\0' character for the endline
+
+                player2.move(Direction::RIGHT);
             }
             if (key == 72)
             { // up
-                if (player2.first > 1)
-                    player2.first--;
+
+                player2.move(Direction::UP);
             }
             if (key == 80)
             { // down
-                if (player2.first < HEIGHT - 2)
-                    player2.first++;
+                player2.move(Direction::DOWN);
             }
         }
         render();

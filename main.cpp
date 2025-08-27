@@ -11,8 +11,6 @@ int main()
     hideCursor();
     srand(time(0));
     // Initial position
-    player1 = {10, 10};
-    player2 = {10, 39};
     initializeBuffer();
     loop();
     showCursor();

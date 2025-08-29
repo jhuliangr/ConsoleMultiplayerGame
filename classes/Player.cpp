@@ -2,8 +2,8 @@
 #include "../globals/globals.h"
 
 // Constructor
-Player::Player(int initialScore, std::pair<int, int> initialPosition)
-    : score(initialScore), position(initialPosition) {}
+Player::Player(int initialScore, std::pair<int, int> initialPosition, bool useWasdMapping)
+    : score(initialScore), position(initialPosition), wasdMapping(useWasdMapping) {}
 
 // Getters
 int Player::getScore() const
@@ -57,3 +57,48 @@ void Player::move(Direction direction)
         break;
     }
 };
+
+void Player::controlMapping(char key)
+{
+    switch (wasdMapping)
+    {
+    case true:
+        if (key == 'a' || key == 'A')
+        {
+            Player::move(Direction::LEFT);
+        }
+        if (key == 'd' || key == 'D')
+        {
+            Player::move(Direction::RIGHT);
+        }
+        if (key == 'w' || key == 'W')
+        {
+            Player::move(Direction::UP);
+        }
+        if (key == 's' || key == 'S')
+        {
+            Player::move(Direction::DOWN);
+        }
+        break;
+    default:
+        // Player 2 sprite
+        if (key == 75)
+        { // left
+            player2.move(Direction::LEFT);
+        }
+        if (key == 77)
+        { // right
+
+            player2.move(Direction::RIGHT);
+        }
+        if (key == 72)
+        { // up
+
+            player2.move(Direction::UP);
+        }
+        if (key == 80)
+        { // down
+            player2.move(Direction::DOWN);
+        }
+    }
+}

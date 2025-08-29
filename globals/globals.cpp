@@ -4,6 +4,6 @@ using namespace std;
 
 char screenBuffer[HEIGHT][WIDTH];
 
-Player player1(0, {10, 10});
-Player player2(0, {10, 39});
+Player player1(0, {10, 10}, true);
+Player player2(0, {10, 39}, false);
 int totalPoints = 0;

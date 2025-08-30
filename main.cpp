@@ -8,9 +8,9 @@ using namespace std;
 
 int main()
 {
+    cin.tie(nullptr);
     hideCursor();
     srand(time(0));
-    // Initial position
     initializeBuffer();
     loop();
     showCursor();

@@ -5,92 +5,80 @@
 
 using namespace std;
 
+void moveCursor(int x, int y)
+{
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 void render()
 {
-    // Actual player1 position
+    // Previous positions
     static pair<int, int> prevPos = {-1, -1};
-
-    // Actual player2 position
     static pair<int, int> prevPosP2 = {-1, -1};
 
-    // Restore previous position
-    if (prevPos.first != -1 && prevPos.second != -1)
+    if (prevPos != player1.getPosition())
     {
-        screenBuffer[prevPos.first][prevPos.second] = '.';
+        moveCursor(prevPos.second, prevPos.first);
+        cout << '.';
     }
-    if (prevPosP2.first != -1 && prevPosP2.second != -1)
+    if (prevPosP2 != player2.getPosition())
     {
-        screenBuffer[prevPosP2.first][prevPosP2.second] = '.';
+        moveCursor(prevPosP2.second, prevPosP2.first);
+        cout << '.';
     }
 
-    // check if player gets a point
+    // Check for collisions with points
     if (screenBuffer[player1.getPosition().first][player1.getPosition().second] == '*')
     {
         player1.addScorePoint();
+        screenBuffer[player1.getPosition().first][player1.getPosition().second] = '.';
     }
     if (screenBuffer[player2.getPosition().first][player2.getPosition().second] == '*')
     {
         player2.addScorePoint();
-    }
-    // Draw player's new position
-    screenBuffer[player1.getPosition().first][player1.getPosition().second] = 'X';
-
-    screenBuffer[player2.getPosition().first][player2.getPosition().second] = 'H';
-
-    // Move cursor to the start of the screen
-    COORD coord;
-    coord.X = 0;
-    coord.Y = 0;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-
-    // Draw buffer
-    for (int i = 0; i < HEIGHT; i++)
-    {
-        for (int j = 0; j < WIDTH; j++)
-        {
-            if (screenBuffer[i][j] == 'X')
-            {
-                string s(1, screenBuffer[i][j]);
-                cout << ConsoleColor::red(s);
-            }
-            else if (screenBuffer[i][j] == 'H')
-            {
-                string s(1, screenBuffer[i][j]);
-                cout << ConsoleColor::blue(s);
-            }
-            else
-            {
-                cout << screenBuffer[i][j];
-            }
-            if (j == WIDTH - 1)
-            {
-                cout << "\n";
-            }
-        }
+        screenBuffer[player2.getPosition().first][player2.getPosition().second] = '.';
     }
 
-    // Controls on screen
+    // Print new positions
+    moveCursor(player1.getPosition().second, player1.getPosition().first);
+    cout << ConsoleColor::red("X");
+
+    moveCursor(player2.getPosition().second, player2.getPosition().first);
+    cout << ConsoleColor::blue("H");
+
+    // Saving actual positions
+    prevPos = player1.getPosition();
+    prevPosP2 = player2.getPosition();
+
+    // Update scoreboard 
     int p1Score = player1.getScore();
     int p2Score = player2.getScore();
 
-    cout << "WASD for moving, Q for exit" << "\n";
-    cout << "Player 1 score: " << p1Score << "\n"
-         << "Player 2 score: " << p2Score << "\n";
+    int hudLine = HEIGHT + 1; // line after the game area
+    moveCursor(0, hudLine);
+    cout << "WASD for moving, Q for exit";
+
+    moveCursor(0, hudLine + 1);
+    cout << ConsoleColor::red("Player 1 score: ") << p1Score;
+
+    moveCursor(0, hudLine + 2);
+    cout << ConsoleColor::cyan("Player 2 score: ") << p2Score;
+
+    moveCursor(0, hudLine + 3);
     if (totalPoints / 2 < p1Score || totalPoints / 2 < p2Score)
     {
         if (p1Score == p2Score)
         {
-            cout << "This is a Draw\n";
+            cout << "This is a Draw   ";
         }
         else
         {
-            cout << "The absolute winner is: Player " << (p1Score > p2Score ? "1" : "2") << "!!\n";
+            cout << "The absolute winner is: Player " << (p1Score > p2Score ? ConsoleColor::red("1") : ConsoleColor::cyan("2")) << "!!   ";
         }
     }
-
-    // saving actual position for the next render
-    prevPos = player1.getPosition();
-    prevPosP2 = player2.getPosition();
 }
 
 void initializeBuffer()
@@ -126,6 +114,17 @@ void initializeBuffer()
                 screenBuffer[i][j] = '.';
             }
         }
-        screenBuffer[i][WIDTH - 1] = '\0'; // endline
+        screenBuffer[i][WIDTH - 1] = '\0';
+    }
+
+    // Prints the initial buffer
+    moveCursor(0, 0);
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        for (int j = 0; j < WIDTH; j++)
+        {
+            cout << screenBuffer[i][j];
+        }
+        cout << "\n";
     }
 }

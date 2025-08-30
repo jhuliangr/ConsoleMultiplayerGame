@@ -18,7 +18,7 @@ private:
 
 public:
     // Constructor
-    Player(int initialScore = 0, std::pair<int, int> initialPosition = {0, 0}, bool useWasdMapping);
+    Player(int initialScore = 0, std::pair<int, int> initialPosition = {0, 0}, bool useWasdMapping = true);
 
 
     // Getters

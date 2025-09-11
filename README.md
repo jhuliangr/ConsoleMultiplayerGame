@@ -1,6 +1,6 @@
 # Console Point collector game
 
-### For compiling the game with vscode make the tasks.json to look like this: 
+### For compiling the game in vscode make the tasks.json to look like this: 
 
 ```JSON
 {
